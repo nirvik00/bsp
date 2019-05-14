@@ -21,4 +21,6 @@ namespace dots_dev
             GeomObjLi = geomobjli;
         }
     }
+
+    // git connected to mac and windows
 }
