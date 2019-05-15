@@ -64,10 +64,10 @@ namespace dots_dev
 
             List<LineCurve> crvs = new List<LineCurve>();
             crvs = bsp.ComputeDisplayLines();
-            DA.SetDataList(2, crvs);
+           // DA.SetDataList(2, crvs);
 
             List<Point3d> pts = bsp.getComputePoints();
-            DA.SetDataList(3, pts);
+           // DA.SetDataList(3, pts);
 
             PolyCurve poly = bsp.getPolyLineCrv();
             DA.SetData(4, poly);
