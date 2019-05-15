@@ -12,6 +12,8 @@ namespace dots_dev
         public Plane BasePlane = Plane.WorldXY;
         List<string> AdjObjLi = new List<string>(); // final adj obj list
         List<string> GeomObjLi = new List<string>(); // final geom object list 
+        List<Point3d> ptList = new List<Point3d>();
+        List<LineCurve> displayLine = new List<LineCurve>();
 
         public BSP(List<string> adjobjli, List<string> geomobjli)
         {
@@ -28,18 +30,35 @@ namespace dots_dev
             Point3d c = BasePlane.Origin + (BasePlane.XAxis * 20) + (BasePlane.YAxis * 20) + (BasePlane.ZAxis * 10);
             Point3d d = BasePlane.Origin + (BasePlane.XAxis * 10) + (BasePlane.YAxis * 20) + (BasePlane.ZAxis * 10);
 
-            List<LineCurve> displayLine = new List<LineCurve>();
+            displayLine = new List<LineCurve>();
 
             displayLine.Add(new LineCurve(a, b));
             displayLine.Add(new LineCurve(b, c));
             displayLine.Add(new LineCurve(c, d));
             displayLine.Add(new LineCurve(d, a));
 
-            
-
+            ptList = new List<Point3d>();
+            ptList.Add(a);
+            ptList.Add(b);
+            ptList.Add(c);
+            ptList.Add(d);
+            ptList.Add(a);
             return displayLine;
         }
-        // git connected to mac and windows
-        // git connected to windows and mac
+
+        public List<Point3d> getComputePoints()
+        {
+            return ptList;
+        }
+
+        public PolyCurve getPolyLineCrv()
+        {
+            PolyCurve poly = new PolyCurve();
+            for(int i=0; i<displayLine.Count; i++)
+            {
+                poly.Append(displayLine[i]);
+            }
+            return poly;
+        }
     }
 }

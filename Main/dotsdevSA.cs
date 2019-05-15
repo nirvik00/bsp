@@ -34,6 +34,8 @@ namespace dots_dev
             pManager.AddTextParameter("Output Adjacency", "oAdj", "output of reading adjacency requirements", GH_ParamAccess.list);
             pManager.AddTextParameter("Output Functions", "oGeom", "output of reading spatial (geometric) requirements", GH_ParamAccess.list);
             pManager.AddCurveParameter("Display Lines", "oLines", "Output list of line curves", GH_ParamAccess.list);
+            pManager.AddPointParameter("Display Points", "oPts", "Output list of Points", GH_ParamAccess.list);
+            pManager.AddCurveParameter("Display Polyline", "oPoly", "Output list of Polyline", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -59,9 +61,17 @@ namespace dots_dev
             DA.SetDataList(1, geomObjLi);
 
             BSP bsp = new BSP(adjObjLi, geomObjLi);
+
             List<LineCurve> crvs = new List<LineCurve>();
             crvs = bsp.ComputeDisplayLines();
             DA.SetDataList(2, crvs);
+
+            List<Point3d> pts = bsp.getComputePoints();
+            DA.SetDataList(3, pts);
+
+            PolyCurve poly = bsp.getPolyLineCrv();
+            DA.SetData(4, poly);
+
 
         }
 
