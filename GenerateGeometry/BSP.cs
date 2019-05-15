@@ -35,6 +35,8 @@ namespace dots_dev
             displayLine.Add(new LineCurve(c, d));
             displayLine.Add(new LineCurve(d, a));
 
+            
+
             return displayLine;
         }
         // git connected to mac and windows
