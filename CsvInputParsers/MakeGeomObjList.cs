@@ -9,6 +9,7 @@ namespace dots_dev
     class GeomEntry
     {
         private string Name;
+        private string Parent;
         private double Area;
         private double RatioA;
         private double RatioB;
@@ -19,9 +20,10 @@ namespace dots_dev
         string OPT = ""; // send option of the constructor
 
         public GeomEntry() { }
-        public GeomEntry(string name, double area, double a, double b, int num)
+        public GeomEntry(string name, String parent, double area, double a, double b, int num)
         {
             Name = name;
+            Parent = parent;
             Area = area;
             RatioA = a;
             RatioB = b;
@@ -30,9 +32,10 @@ namespace dots_dev
             Number = num;
             OPT = "opt-0";
         }
-        public GeomEntry(string name, double l, double w, int num)
+        public GeomEntry(string name, string parent, double l, double w, int num)
         {
             Name = name;
+            Parent = parent;
             Length = l;
             Width = w;
             Number = num;
@@ -40,14 +43,14 @@ namespace dots_dev
         }
         public string displayString()
         {
-            string s = Name + "," + Length + "," + Width + "," + Number + "," + OPT;
+            string s = Name + "," + Parent+ "," + Length + "," + Width + "," + Number + "," + OPT;
             return s;
         }
     }
     class MakeGeomObjList
     {
-        List<string> input;
-        List<string> geomObjLi;
+        private List<string> input;
+        private List<string> geomObjLi;
 
         public MakeGeomObjList() { }
 
@@ -76,7 +79,6 @@ namespace dots_dev
 
         public List<string> GetGeomObjList()
         {
-            string[] headerArr = input[0].Split(',');
             for (int i = 1; i < input.Count; i++)
             {
                 int opt = 0; // if 0, use area, ratio else use length, width
@@ -84,36 +86,38 @@ namespace dots_dev
                 // format of the inputs:
                 /// name[0], area[1], ratio (a:b)[2], number[3], length[4], width[5]
 
-                string name = input[i].Split(',')[0];
+                string name = input[i].Split(',')[0].Trim().ToUpper();
 
-                double area = GetDoubleFromString(input[i].Split(',')[1]);
+                string parent = input[i].Split(',')[1].Trim().ToUpper();
+                if (string.Equals(parent, "") == true || parent == null) parent = "0";
+              
+                double area = GetDoubleFromString(input[i].Split(',')[2]);
                 if (area < 0.01) opt++;
 
-                double ratio = GetDoubleFromString(input[i].Split(',')[2]);
+                double ratio = GetDoubleFromString(input[i].Split(',')[3]);
                 double a = 0.0; double b = 0.0;
-                if (ratio == 0.0) { opt++; }
+                if (ratio < 0.1) { opt++; }
                 else
                 {
                     a = 1 - ratio;
                     b = ratio;
                 }
 
-                int num = Convert.ToInt32(input[i].Split(',')[3]);
+                int num = Convert.ToInt32(input[i].Split(',')[4]);
 
-                double le = GetDoubleFromString(input[i].Split(',')[4]);
-                double wi = GetDoubleFromString(input[i].Split(',')[5]);
+                double le = GetDoubleFromString(input[i].Split(',')[5]);
+                double wi = GetDoubleFromString(input[i].Split(',')[6]);
                 if (le > 0.0 && wi > 0.0) { opt = 0; }
                 else { opt = 1; }
 
                 if (num == 0) continue; // num =0, then continue - do not initialize
-                else
-                {
-                    GeomEntry geom;
-                    if (opt > 0) { geom = new GeomEntry(name, area, a, b, num); }
-                    else { geom = new GeomEntry(name, le, wi, num); }
-                    String str = geom.displayString();
-                    geomObjLi.Add(str);
-                }
+
+                GeomEntry geom;
+                if (opt > 0) { geom = new GeomEntry(name, parent, area, a, b, num); }
+                else { geom = new GeomEntry(name, parent, le, wi, num); }
+                String str = geom.displayString();
+                geomObjLi.Add(str);
+
             }
             return geomObjLi;
         }

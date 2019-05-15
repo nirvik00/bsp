@@ -53,25 +53,25 @@ namespace dots_dev
             CsvParser csvParserGeom = new CsvParser(geomFilePath);
             geomSpaceStr = csvParserGeom.readFile(); // list of strings - not fields
             geomObjLi = csvParserGeom.GetGeomObjLi(geomSpaceStr); // list of geom objs
-            
-            // geomSpaceStr
-            // DA.SetDataList(0, adjMatrixStr); // deprecated
-            // DA.SetDataList(1, geomSpaceStr); //deprecated
+
             DA.SetDataList(0, adjObjLi);
             DA.SetDataList(1, geomObjLi);
 
             BSP bsp = new BSP(adjObjLi, geomObjLi);
 
-            List<LineCurve> crvs = new List<LineCurve>();
-            crvs = bsp.ComputeDisplayLines();
-           // DA.SetDataList(2, crvs);
-
-            List<Point3d> pts = bsp.getComputePoints();
-           // DA.SetDataList(3, pts);
-
-            PolyCurve poly = bsp.getPolyLineCrv();
+            PolyCurve poly = bsp.GetPolyLineCrv();
             DA.SetData(4, poly);
 
+            // geomSpaceStr
+            // DA.SetDataList(0, adjMatrixStr); // deprecated
+            // DA.SetDataList(1, geomSpaceStr); //deprecated
+
+            //List<LineCurve> crvs = new List<LineCurve>();
+            //crvs = bsp.ComputeDisplayLines();
+            // DA.SetDataList(2, crvs);
+
+            //List<Point3d> pts = bsp.GetComputePoints();
+            // DA.SetDataList(3, pts);
 
         }
 

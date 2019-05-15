@@ -30,28 +30,24 @@ namespace dots_dev
             Point3d c = BasePlane.Origin + (BasePlane.XAxis * 20) + (BasePlane.YAxis * 20) + (BasePlane.ZAxis * 10);
             Point3d d = BasePlane.Origin + (BasePlane.XAxis * 10) + (BasePlane.YAxis * 20) + (BasePlane.ZAxis * 10);
 
-            displayLine = new List<LineCurve>();
+            displayLine = new List<LineCurve>
+            {
+                new LineCurve(a, b),
+                new LineCurve(b, c),
+                new LineCurve(c, d),
+                new LineCurve(d, a)
+            };
 
-            displayLine.Add(new LineCurve(a, b));
-            displayLine.Add(new LineCurve(b, c));
-            displayLine.Add(new LineCurve(c, d));
-            displayLine.Add(new LineCurve(d, a));
-
-            ptList = new List<Point3d>();
-            ptList.Add(a);
-            ptList.Add(b);
-            ptList.Add(c);
-            ptList.Add(d);
-            ptList.Add(a);
+            ptList = new List<Point3d> {a,b,c,d,a};
             return displayLine;
         }
 
-        public List<Point3d> getComputePoints()
+        public List<Point3d> GetComputePoints()
         {
             return ptList;
         }
 
-        public PolyCurve getPolyLineCrv()
+        public PolyCurve GetPolyLineCrv()
         {
             PolyCurve poly = new PolyCurve();
             for(int i=0; i<displayLine.Count; i++)
