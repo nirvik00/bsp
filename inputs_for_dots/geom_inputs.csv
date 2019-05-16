@@ -1,0 +1,8 @@
+﻿Name,Parent,Area,Proportion,Number,Length,Width
+a,,250,0.25,4,,
+b,,,,2,20,20
+c,,,,1,40,50
+d,,50,0.125,7,,
+e,a,120,0.5,4,,
+f,c,,,10,20,10
+g,f,,,8,5,5
