@@ -64,14 +64,14 @@ namespace dots_dev
     {
         private List<string> input;
         private List<string> GeomObjLiStr;
-        private List<GeomEntry> geomObjLi;
+        private List<string> geomObjCalcLi;
 
         public MakeGeomObjList() { }
 
         public MakeGeomObjList(List<string> inputstrli)
         {
             GeomObjLiStr = new List<string>();
-            geomObjLi = new List<GeomEntry>();
+            geomObjCalcLi = new List<string>();
             input = new List<string>();
             input = inputstrli;
         }
@@ -132,13 +132,18 @@ namespace dots_dev
                 else { geom = new GeomEntry(name, parent, le, wi, num); }
                 String str = geom.displayString();
                 GeomObjLiStr.Add(str);
-                geomObjLi.Add(geom);
+                for(int j=0; j<num; j++)
+                {
+                    string s = name + "," + area + "," + le + "," + wi;
+                    geomObjCalcLi.Add(s);
+                }
             }
             return GeomObjLiStr;
         }
-        public List<GeomEntry> GetGeomObjList()
-        {
-            return geomObjLi;
+
+        public List<string> GetGeomObjCalcList() {
+            return geomObjCalcLi; 
         }
-    }
-}
+
+    }   // end of public class
+}       // end of namespace

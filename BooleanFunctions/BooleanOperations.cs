@@ -13,6 +13,7 @@ namespace dots_dev.SpaceAllocation.BooleanFunctions
               "Boolean Ops - union, difference, intersection",
               "DOTS", "BooleanFunctions")
         {
+            // do nothing here
         }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -52,10 +53,7 @@ namespace dots_dev.SpaceAllocation.BooleanFunctions
 
         protected override System.Drawing.Bitmap Icon
         {
-            get
-            {
-                return null;
-            }
+            get { return null; }
         }
 
         public override Guid ComponentGuid

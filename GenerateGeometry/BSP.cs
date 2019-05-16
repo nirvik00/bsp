@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Rhino.DocObjects.Tables;
 using Rhino.Geometry;
 
 namespace dots_dev
 {
+
     public class BSP
     {
         public Plane BasePlane = Plane.WorldXY;
-        List<string> AdjObjLi = new List<string>(); // final adj obj list
+        // List<string> AdjObjLi = new List<string>(); // final adj obj list
         private List<string> GeomObjLiStr = new List<string>(); // final geom object list 
         private List<Point3d> ptList = new List<Point3d>();
         private List<LineCurve> displayLine = new List<LineCurve>();
 
         public BSP(List<string> adjobjli, List<string> geomobjliStr)
         {
-            AdjObjLi = new List<string>();
+            // AdjObjLi = new List<string>();
             GeomObjLiStr = new List<string>();
             GeomObjLiStr = geomobjliStr;
-            AdjObjLi = adjobjli;
+            // AdjObjLi = adjobjli;
         }
 
         public List<LineCurve> ComputeGeom(double le, double wi)
@@ -44,6 +46,12 @@ namespace dots_dev
 
         public List<Point3d> GetComputePoints()
         {
+            for(int i=0; i<ptList.Count; i++)
+            {
+                Point3d p = ptList[i];
+
+            
+            }
             return ptList;
         }
 
@@ -52,12 +60,6 @@ namespace dots_dev
             List<double> dim=ComputeSquare();
             ComputeGeom(dim[0], dim[1]);
             PolylineCurve crv = new PolylineCurve(ptList);
-
-            PolyCurve poly = new PolyCurve();
-            for(int i=0; i<displayLine.Count; i++)
-            {
-                poly.Append(displayLine[i]);
-            }
             return crv;
         }
 
@@ -65,13 +67,14 @@ namespace dots_dev
         {
             double maxLe=0.0;
             double maxWi=0.0;
-            List<double> SqDim = new List<double>();
             double sumArea = 0.0;
+
+            List<double> SqDim = new List<double>();
+
             for(int i=0; i< GeomObjLiStr.Count; i++)
             {
                 //name, parent, area, length, width, number
                 string[] obj = GeomObjLiStr[i].Split(',');
-                //string name = obj[0];
                 double area = Convert.ToDouble(obj[2]);
                 int number = Convert.ToInt32(obj[5]);
                 sumArea+=(Math.Sqrt(area*number));
@@ -82,6 +85,6 @@ namespace dots_dev
             SqDim.Add(maxWi);
             return SqDim;
         }
-    } // class definition end
-} // namespace definition end
+    }       // class definition end
+}           // namespace definition end
 
