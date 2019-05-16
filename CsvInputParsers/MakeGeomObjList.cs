@@ -15,7 +15,7 @@ namespace dots_dev
         private double RatioB;
         private double Length=0.00;
         private double Width=0.00;
-        private int Number=1;
+        private int Number = 1;
 
         string OPT = ""; // send option of the constructor
 
@@ -40,23 +40,38 @@ namespace dots_dev
             Width = w;
             Number = num;
             OPT = "opt-1";
+            Area = Length * Width;
+            RatioA = Length / (Length + Width);
+            RatioB = Width / (Length + Width);
         }
         public string displayString()
         {
-            string s = Name + "," + Parent+ "," + Length + "," + Width + "," + Number + "," + OPT;
+            string s = Name + "," + Parent+ "," + Area + "," + Length + "," + Width + "," + Number + "," + OPT;
             return s;
         }
+        public string getName() { return Name; }
+        public string getParent() { return Parent;  }
+        public double getLenth() { return Length;  }
+        public void setLength(double t) { Length = t; }
+        public double getWidth() { return Width; }
+        public void setWidth(double t) { Width = t; }
+        public double getArea() { return Area; }
+        public void setArea(double t) { Area = t; }
+        public int getNumber() { return Number; }
     }
+
     class MakeGeomObjList
     {
         private List<string> input;
-        private List<string> geomObjLi;
+        private List<string> GeomObjLiStr;
+        private List<GeomEntry> geomObjLi;
 
         public MakeGeomObjList() { }
 
         public MakeGeomObjList(List<string> inputstrli)
         {
-            geomObjLi = new List<string>();
+            GeomObjLiStr = new List<string>();
+            geomObjLi = new List<GeomEntry>();
             input = new List<string>();
             input = inputstrli;
         }
@@ -77,7 +92,7 @@ namespace dots_dev
             else return Convert.ToInt16(s);
         }
 
-        public List<string> GetGeomObjList()
+        public List<string> GetGeomObjListStr()
         {
             for (int i = 1; i < input.Count; i++)
             {
@@ -116,9 +131,13 @@ namespace dots_dev
                 if (opt > 0) { geom = new GeomEntry(name, parent, area, a, b, num); }
                 else { geom = new GeomEntry(name, parent, le, wi, num); }
                 String str = geom.displayString();
-                geomObjLi.Add(str);
-
+                GeomObjLiStr.Add(str);
+                geomObjLi.Add(geom);
             }
+            return GeomObjLiStr;
+        }
+        public List<GeomEntry> GetGeomObjList()
+        {
             return geomObjLi;
         }
     }

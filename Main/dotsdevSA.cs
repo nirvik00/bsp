@@ -12,7 +12,8 @@ namespace dots_dev
         List<string> adjMatrixStr = new List<string>(); // adjacency matrix
         List<string> geomSpaceStr = new List<String>(); // functional space - geometric requirements
         List<string> adjObjLi = new List<string>(); // final adj obj list
-        List<string> geomObjLi = new List<string>(); // final geom object list 
+        List<string> geomObjLiStr = new List<string>(); // final geom object list as string
+        List<GeomEntry> geomObjLi = new List<GeomEntry>();
 
         public dotsdevSA()
           : base("dots_dev", "inputs",
@@ -33,8 +34,6 @@ namespace dots_dev
             // pManager.AddTextParameter("Output Functions Intermediate", "oGeom0", "intermediate output of reading geometric requirements", GH_ParamAccess.list);
             pManager.AddTextParameter("Output Adjacency", "oAdj", "output of reading adjacency requirements", GH_ParamAccess.list);
             pManager.AddTextParameter("Output Functions", "oGeom", "output of reading spatial (geometric) requirements", GH_ParamAccess.list);
-            pManager.AddCurveParameter("Display Lines", "oLines", "Output list of line curves", GH_ParamAccess.list);
-            pManager.AddPointParameter("Display Points", "oPts", "Output list of Points", GH_ParamAccess.list);
             pManager.AddCurveParameter("Display Polyline", "oPoly", "Output list of Polyline", GH_ParamAccess.item);
         }
 
@@ -52,27 +51,16 @@ namespace dots_dev
 
             CsvParser csvParserGeom = new CsvParser(geomFilePath);
             geomSpaceStr = csvParserGeom.readFile(); // list of strings - not fields
-            geomObjLi = csvParserGeom.GetGeomObjLi(geomSpaceStr); // list of geom objs
+            geomObjLiStr = csvParserGeom.GetGeomObjLi(geomSpaceStr); // overloaded: list of geom objs
+            geomObjLi = csvParserGeom.GetGeomObjLi();//overloaded: initialized in str system
 
             DA.SetDataList(0, adjObjLi);
-            DA.SetDataList(1, geomObjLi);
+            DA.SetDataList(1, geomObjLiStr);
 
-            BSP bsp = new BSP(adjObjLi, geomObjLi);
+            BSP bsp = new BSP(adjObjLi, geomObjLiStr);//list of obj: not string
 
-            PolyCurve poly = bsp.GetPolyLineCrv();
-            DA.SetData(4, poly);
-
-            // geomSpaceStr
-            // DA.SetDataList(0, adjMatrixStr); // deprecated
-            // DA.SetDataList(1, geomSpaceStr); //deprecated
-
-            //List<LineCurve> crvs = new List<LineCurve>();
-            //crvs = bsp.ComputeDisplayLines();
-            // DA.SetDataList(2, crvs);
-
-            //List<Point3d> pts = bsp.GetComputePoints();
-            // DA.SetDataList(3, pts);
-
+            PolylineCurve poly = bsp.GetPolyLineCrv();
+            DA.SetData(2, poly);
         }
 
         protected override System.Drawing.Bitmap Icon

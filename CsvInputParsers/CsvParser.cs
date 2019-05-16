@@ -17,7 +17,8 @@ namespace dots_dev
         private List<string> FileContents;
 
         private List<string> adjObjLi;
-        private List<string> geomObjLi;
+        private List<string> geomObjLiStr;
+        private List<GeomEntry> geomObjLi;
 
         public CsvParser(){}
 
@@ -59,9 +60,15 @@ namespace dots_dev
 
         public List<string> GetGeomObjLi (List<string> geomstrList)
         {
-            geomObjLi = new List<string>();
+            geomObjLiStr = new List<string>();
+            geomObjLi = new List<GeomEntry>();
             MakeGeomObjList obj = new MakeGeomObjList(geomstrList);
+            geomObjLiStr = obj.GetGeomObjListStr();
             geomObjLi = obj.GetGeomObjList();
+            return geomObjLiStr;
+        }
+        public List<GeomEntry> GetGeomObjLi ()
+        {
             return geomObjLi;
         }
     }
